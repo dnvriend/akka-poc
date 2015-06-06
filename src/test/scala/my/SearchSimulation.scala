@@ -8,19 +8,24 @@ class SearchSimulation extends Simulation {
 
 	val rampUpTimeSecs = 20
 	val testTimeSecs   = 30
-	val noOfUsers      = 2000
+	val noOfUsers      = 1000
 	val minWaitMs      = 10 milliseconds
 	val maxWaitMs      = 1000 milliseconds
   
-	val httpConf = http
-		.baseURL("http://localhost:8080/cr/1")
+	val httpConfAkka = http
+		.baseURL("http://localhost:8080")
     .doNotTrackHeader("1")
+		.disableFollowRedirect
+
+	val httpConfSpray = http
+		.baseURL("http://localhost:8081")
+		.doNotTrackHeader("1")
 		.disableFollowRedirect
 
 	val headers_1 = Map(
 		"Keep-Alive" -> "115")
 
-	val scn = scenario("Query")
+	val scnAkka = scenario("QueryAkka")
 		.during(testTimeSecs) {
 			exec(
 				http("(akka) Search without query")
@@ -30,7 +35,18 @@ class SearchSimulation extends Simulation {
 			.pause(minWaitMs, maxWaitMs)
 		}
 
-	setUp(scn.inject(
-      rampUsers(noOfUsers) over (rampUpTimeSecs seconds)
-    ).protocols(httpConf))
+	val scnSpray = scenario("QuerySpray")
+		.during(testTimeSecs) {
+		exec(
+			http("(akka) Search without query")
+				.get("/search")
+				.headers(headers_1)
+				.check(status.is(200)))
+			.pause(minWaitMs, maxWaitMs)
+	}
+
+	setUp(
+		scnAkka.inject(rampUsers(noOfUsers) over (rampUpTimeSecs seconds)).protocols(httpConfAkka),
+		scnSpray.inject(rampUsers(noOfUsers) over (rampUpTimeSecs seconds)).protocols(httpConfSpray)
+	)
 }
