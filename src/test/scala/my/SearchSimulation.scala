@@ -7,8 +7,8 @@ import scala.concurrent.duration._
 class SearchSimulation extends Simulation {
 
 	val rampUpTimeSecs = 20
-	val testTimeSecs   = 60
-	val noOfUsers      = 10000
+	val testTimeSecs   = 30
+	val noOfUsers      = 2000
 	val minWaitMs      = 10 milliseconds
 	val maxWaitMs      = 1000 milliseconds
   
