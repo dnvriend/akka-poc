@@ -32,5 +32,5 @@ trait Service extends AkkaHttpMarshallers {
 }
 
 object SearchServiceAkkaHttp extends App with Service with CoreServices {
-  Http().bindAndHandle(routes, "0.0.0.0", 8080)
+  Http().bindAndHandle(routes, "0.0.0.0", 8081)
 }

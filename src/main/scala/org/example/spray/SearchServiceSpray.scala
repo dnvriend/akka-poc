@@ -10,7 +10,7 @@ trait SprayMarshallers extends DefaultJsonProtocol with SprayJsonSupport {
 }
 
 object SearchServiceSpray extends App with SprayMarshallers with SimpleRoutingApp with CoreServices {
-  startServer("0.0.0.0", 8081) {
+  startServer("0.0.0.0", 8082) {
     path("search") {
       complete {
         Person("John Doe", 50)

@@ -10,4 +10,7 @@ I will create a branch to test with the Spray libraries.
 After some tests and a bit of [googling](http://javarevisited.blogspot.nl/2013/08/how-to-fix-javanetsocketexception-too-many-open-files-java-tomcat-weblogic.html)
 searching for the problem, it seems that socket connections are treated like files and they use file descriptor, which 
 is a limited resource; so testing for 10.000 concurrent users can be problematic. For example, a `ulimit -a` on my OSX systems
-shows that the operating system can handle 2560 open files, so the problem lies not with Spray or Akka-HTTP. 
+shows that the operating system can handle 2560 open files, so the problem lies not with Spray or Akka-HTTP.
+ 
+Actually, after trying to get SpringBoot to work with Scala (I really don't like Java anymore), it seems it has the
+same problem as akka-http and Spray... running out of open files.
