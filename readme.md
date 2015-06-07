@@ -14,3 +14,6 @@ shows that the operating system can handle 2560 open files, so the problem lies 
  
 Actually, after trying to get SpringBoot to work with Scala (I really don't like Java anymore), it seems it has the
 same problem as akka-http and Spray... running out of open files.
+
+# Update 2015-06-07
+[Gatling](http://gatling.io) has [some tips to tune the operating system](http://gatling.io/docs/2.1.6/general/operations.html)to support handing heavy loads. The `tune.sh` script uses some tweaks for OSX to run the test. It is used by the `test.sh` script to configure the current shell session. Still, after some tweaks and choosing a longer period in which to ramp up users, the desktop won't handle more than 1200 concurrent users (which imho is quite good), but still is far from the 10.000 concurrent users.

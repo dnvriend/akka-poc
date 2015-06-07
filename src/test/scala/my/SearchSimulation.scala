@@ -8,7 +8,7 @@ class SearchSimulation extends Simulation {
 
 	val rampUpTimeSecs = 20
 	val testTimeSecs   = 30
-	val noOfUsers      = 10000
+	val noOfUsers      = 2000
 	val minWaitMs      = 10 milliseconds
 	val maxWaitMs      = 1000 milliseconds
 
@@ -62,8 +62,13 @@ class SearchSimulation extends Simulation {
 	}
 
 	setUp(
-		scnBoot.inject(rampUsers(noOfUsers) over (rampUpTimeSecs seconds)).protocols(httpConfBoot)
-//		scnAkka.inject(rampUsers(noOfUsers) over (rampUpTimeSecs seconds)).protocols(httpConfAkka),
+//		scnBoot.inject(rampUsers(noOfUsers) over (rampUpTimeSecs seconds)).protocols(httpConfBoot)
+		// scnBoot.inject(rampUsers(noOfUsers) over (10 minutes)).protocols(httpConfBoot)
+		// scnBoot.inject(rampUsersPerSec(1) to (noOfUsers) during(10 minutes)).protocols(httpConfBoot)
+		//scnAkka.inject(rampUsers(noOfUsers) over (rampUpTimeSecs seconds)).protocols(httpConfAkka)
+		// scnAkka.inject(rampUsers(2000) over (5 minutes)).protocols(httpConfAkka)
+		// scnAkka.inject(rampUsersPerSec(1) to (10000) during (10 minutes)).protocols(httpConfAkka)
+		scnAkka.inject(heavisideUsers(1000000) over(30 minutes)).protocols(httpConfAkka)
 //		scnSpray.inject(rampUsers(noOfUsers) over (rampUpTimeSecs seconds)).protocols(httpConfSpray)
 	)
 }
